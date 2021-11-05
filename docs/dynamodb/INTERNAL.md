@@ -34,6 +34,18 @@ TBD
 
 이질성(Heterogeneity): 시스템이 실행되는 인프라의 이질성(다른 점)을 이용할 수 있어야합니다. 예를 들어, 작업은 개별 서버의 용량(capability)에 비례해서 분배됩니다. 이는 모든 호스트를 한 번에 업그레이드할 필요 없이 용량이 큰 새 노드를 추가하는 데 필수적입니다.
 
+## System Architecture
+
+상용 환경에서 운영이 필요한 스토리지 시스템의 아키텍처는 복잡합니다. 게다가, 실제 데이터 영속성 컴포넌트의 경우 시스템은 확장성(scalable), 방대한 로그 밸런싱, 실패 상황 디텍션, membership과 오류 감지, 레플리카와의 동기화, 오버로드 핸들링, 상태 전이, 동시성, 잡 스케줄링, 리퀘스트 변환(Marshalling), 요청 라우팅, 시스템 모니터링와 알람, 그리고 설정 관리가 필요합니다. 각 솔루션에 대한 디테일을 설명하는건 어렵습니다. 따라서 이 글에서는 partitioning, replication, versioning, membership, failure handling and scaling와 같이 DyanmoDB에서 사용된 코어 분신 시스템 테크닉에 집중하고 있습니다. 테이블 1은 DynamoDB에서 사용된 기술들과 이점을 요약하고 있습니다.
+
+|Problem|Technique|Advantage|
+|------|---|---|
+|Partitioning|Consistent Hashing|Incremental Scalability|
+|High Availability for writes|Vector clocks with reconciliation during reads|Version size is decoupled from update rates.|
+|Handling temporary failures|Sloppy Quorum and hinted handoff|Provides high availability and durability guarantee when some of the replicas are not available.|
+|Recovering from permanent failures|Anti-entropy using Merkle trees|Synchronizes divergent replicas in the background.|
+|Membership and failure detection|Gossip-based membership protocol and failure detection.|Preserves symmetry and avoids having a centralized registry for storing membership and node liveness information.|
+
 ## 가용성과 확정성의 핵심 - 해싱과 
 
 TBD
