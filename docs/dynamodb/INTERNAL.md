@@ -36,7 +36,7 @@ TBD
 
 ## System Architecture
 
-상용 환경에서 운영이 필요한 스토리지 시스템의 아키텍처는 복잡합니다. 게다가, 실제 데이터 영속성 컴포넌트의 경우 시스템은 확장성(scalable), 방대한 로그 밸런싱, 실패 상황 디텍션, membership과 오류 감지, 레플리카와의 동기화, 오버로드 핸들링, 상태 전이, 동시성, 잡 스케줄링, 리퀘스트 변환(Marshalling), 요청 라우팅, 시스템 모니터링와 알람, 그리고 설정 관리가 필요합니다. 각 솔루션에 대한 디테일을 설명하는건 어렵습니다. 따라서 이 글에서는 partitioning, replication, versioning, membership, failure handling and scaling와 같이 DyanmoDB에서 사용된 코어 분신 시스템 테크닉에 집중하고 있습니다. 테이블 1은 DynamoDB에서 사용된 기술들과 이점을 요약하고 있습니다.
+상용 환경에서 운영이 필요한 스토리지 시스템의 아키텍처는 복잡합니다. 게다가, 실제 데이터 영속성 컴포넌트의 경우 시스템은 확장성(scalable), 방대한 로그 밸런싱, 실패 상황 디텍션, membership과 오류 감지, 레플리카와의 동기화, 오버로드 핸들링, 상태 전이, 동시성, 잡 스케줄링, 리퀘스트 변환(Marshalling), 요청 라우팅, 시스템 모니터링와 알람, 그리고 설정 관리가 필요합니다. 각 솔루션에 대한 디테일을 전부 설명하는건 어렵습니다. 따라서 이 글에서는 partitioning, replication, versioning, membership, failure handling and scaling와 같이 DyanmoDB에서 사용된 코어 분신 시스템 테크닉에 집중하고 있습니다. 테이블 1은 DynamoDB에서 사용된 기술들과 이점을 요약하고 있습니다.
 
 |Problem|Technique|Advantage|
 |------|---|---|
@@ -46,6 +46,14 @@ TBD
 |Recovering from permanent failures|Anti-entropy using Merkle trees|Synchronizes divergent replicas in the background.|
 |Membership and failure detection|Gossip-based membership protocol and failure detection.|Preserves symmetry and avoids having a centralized registry for storing membership and node liveness information.|
 
-## 가용성과 확정성의 핵심 - 해싱과 
+## System Interface
+
+DynamoDB는 Key와 연관된 객체를 다음과 같은 간단한 인터페이스로 저장합니다. 이는 get()과 put()의 2가지 동작으로 이루어져있습니다. get(key)연산은 Key와 연관된 객체 복제본을 찾고 단일 개체 또는 충돌하는 버전의 개체 목록을 컨텍스트와 함께 반환합니다. put(key, context, object) 연산은 연결된 키를 기반으로 오브젝트의 복제본이 배치될 위치를 결정하고 복제본을 디스크에 기록합니다. 컨텍스트는 호출자가 불투명한 객체에 대한 시스템 메타데이터를 인코딩하고 객체의 버전과 같은 정보를 포함합니다. 컨텍스트 정보는 객체와 함께 저장되므로 시스템이 put요청에 제공된 컨텍스트 객체의 유효성을 확인할 수 있습니다.
+
+Dynamo는 호출자가 제공한 키와 객체 둘 다 opaque array of bytes(*from Peko: 내부 형태가 정의되지 않거나 데이터, 혹은 내부 정보가 외부로 공개되지 않은 데이터.*) 로 간주합니다. 키에 MD5 해시를 적용하여 128비트 식별자를 생성합니다. 이 식별자는 키 서비스를 담당하는 스토리지 노드를 결정하는 데 사용됩니다.
+
+## Partitioning Algorithm
+
+DynamoDB의 중요 디자인 요구사항중 하나는 반드시 점진적인 확장(Incremental Scalability)입니다. 이를 위해서는 시스템의 노드 집합(i.e. 스토리지 호스트)을 통해 데이터를 동적으로 분할하는 메커니즘이 필요합니다. Dynamo의 파티션 스킴(*from Peko: See Also: [SQL Partitioning_Schemes](https://docs.actian.com/ingres/10S/index.html#page/SQLRef/Partitioning_Schemes.htm)*)은 여러 스토리지 호스트에 로드를 분산하기 위해 일관된 해싱[10](consistent hashing)을 사용합니다. consistent hashing에서는 해시 함수의 결과 범위가 고정된 원형 공간 또는 "ring"으로 처리됩니다. (i.e. 가장 큰 해시 값이 가장 작은 해시 값으로 랩핑됨)
 
 TBD
