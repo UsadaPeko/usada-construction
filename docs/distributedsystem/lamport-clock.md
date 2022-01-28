@@ -9,7 +9,9 @@ https://lamport.azurewebsites.net/pubs/time-clocks.pdf
 > From Pekora
 > 
 > 이 방식은 동시에 발생한 이벤트에 대하여 충돌을 해결하거나, 요청의 순서를 보장하려는 방식이 아니다.
+>
 > 따라서 노드들의 동기화에 대한 신경을 쓸 필요가 없다. 이 방식이 해결하고 싶은 문제는 조금 더 보편적이다.
+>
 > 단순히 이벤트의 발생 시각을 어떻게 나타내야하는지에 대한 문제를 해결하는 방법이다.
 
 ## Problem
@@ -30,7 +32,19 @@ Lamport는 논리 시계를 통해 이벤트의 상대적인 순서를 표현합
 
 이 방법을 사용할 경우 이벤트의 전체 순서(total order)를 보장하는 것은 불가능합니다. 영향을 준 이벤트끼리의 순서를 일부 보장합니다.
 
-## Event Ordering 표기법
+## Example
 
-노드 N1, N2가 존재하며, 이 두 시스템은 서로 영향을 주고 받습니다. 이러한 상황에서 A, B, C, D, E 이벤트가 있다고 가정해보겠습니다.
+![event](./images/lamport-event-1.png)
 
+N1, N2가 A~H의 이벤트가 발생하면서 상호작용시 Lamport Clock의 시간 값이 어떻게 변하는지 나타냈습니다. 예를들자면, `LC(A) = 1`라는 문장이 있을 때, LC(A)는 A이벤트에 대한 Lamport Clock의 시간 값을 나타내며, 이 값이 1이라는 의미입니다.
+
+Lamport Clock은 X 이벤트가 Y 이벤트에 영향을 주었다면 `LC(X) < LC(Y)`가 항상 성립합니다. 하지만, 역으로 `LC(X) < LC(Y)`라고 해서 항상 영향을 주었다는 것을 보장하지는 못합니다.
+
+> From Pekora
+> 
+> 위 경우에서 LC(X) 값을 구해보세요! 
+
+
+## Vector Clock
+
+Vector Clock은 Lamport Clock의 개선된 버전입니다.
