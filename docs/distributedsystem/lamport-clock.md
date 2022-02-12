@@ -48,3 +48,10 @@ Lamport Clock은 X 이벤트가 Y 이벤트에 영향을 주었다면 `LC(X) < L
 ## Vector Clock
 
 Vector Clock은 Lamport Clock의 개선된 버전입니다.
+
+
+## Partial Order and Total Order
+
+> From Pekora
+> 
+> 자세한 내용은 [partial order & total order](./partial-total-order.md)을 확인해주세요. 이 글에서는 위 내용을 어느정도 알고있다는 전제 하에 이야기합니다.
