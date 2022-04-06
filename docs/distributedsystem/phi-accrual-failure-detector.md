@@ -13,7 +13,7 @@ failure를 탐지하는 것은 매우 중요한 문제입니다. 노드에 장�
 ## Phi Accural Failure Detector
 우리는 앞에서 단순한 timeout이 장애를 판단하는데 완벽한 방법이 아니라는 것을 살펴보았습니다. 그렇다면 어떤 방법이 있을까요? 많은 시스템에서 Phi Accural Failure Detector를 사용하여 장애를 보다 나은 방법으로 감지하고 있습니다.
 
-Phi Accural Failure Detector(PAFC)는 장애가 발생한 확률을 구하는 방식으로 이 문제를 보완합니다. 매번 heart beat를 보내고, 평균적으로 발생하는 네트워크 지연을 계산하여 장애가 난 상황을 감지합니다.
+Phi Accural Failure Detector(PAFC)는 장애가 발생한 확률을 구하는 방식으로 이 문제를 보완합니다. 매번 heart beat를 보내고, 평균적으로 발생하는 네트워크 지연을 계산하여 failure일 확률을 계산합니다.
 
 네트워크 환경에서 일어날 수 있는 변동을 고려할 수 있기에, 이런 방식은 꽤나 바람직한 접근입니다. 또한 단순히 이분법으로 장애를 판단하는 것이 아닌, 샘플링한 하트비트에 따라서 장애 가능성을 유동적으로 조정할 수 있습니다.
 
@@ -47,6 +47,9 @@ private[akka] def phi(timeDiff: Long, mean: Double, stdDeviation: Double): Doubl
         -math.log10(1.0 - 1.0 / (1.0 + e))
 }
 ```
+
+위 내용을 보면 알 수 있듯, **하트비트가 평균 네트워크 지연보다 늦게 도착할 수록 failure일 확률이 높아집니다.**
+
 ## Other Failure Detector
 장애 탐지기는 Phi Accrual Detector을 제외하고도 여러가지 개선된 친구들이 많이 있습니다. 한번 살펴보시면 재밌을 것 같아요!!
 
