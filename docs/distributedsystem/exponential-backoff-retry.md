@@ -1,4 +1,4 @@
-# Expontential Backoff Retry
+# Exponential Backoff Retry
 
 네트워크 분단을 똑똑하게 견디기 위하여 재시도 로직을 사용합니다.
 
@@ -11,19 +11,19 @@
 
 하지만 이 방법에는 단점이 있습니다. 요청이 계속해서 시도된다면 네트워크 부하를 가중시키거나 크게 의미없을 가능성도 많습니다. 
 
-## Expontential Backoff
-우리는 더 나은 재시도 방법이 필요합니다. 그 방법중 하나가 바로 Expontential Backoff입니다. 간단하면서도 꽤나 효과적인 재시도 방법입니다.
+## Exponential Backoff
+우리는 더 나은 재시도 방법이 필요합니다. 그 방법중 하나가 바로 Exponential Backoff입니다. 간단하면서도 꽤나 효과적인 재시도 방법입니다.
 
-Expontential Backoff는 재시도하는 간격을 지수적으로 증가시키며 네트워크 부하를 최소화합니다. 1, 2, 4, 16처럼 간격이 늘어날 수록 더 오랜기간 기다리게됩니다. 이러한 방법은 일시적인 문제에는 빠른 해결이 되면서도, 지속적인 문제의 경우 부하를 줄여줍니다.
+Exponential Backoff는 재시도하는 간격을 지수적으로 증가시키며 네트워크 부하를 최소화합니다. 1, 2, 4, 16처럼 간격이 늘어날 수록 더 오랜기간 기다리게됩니다. 이러한 방법은 일시적인 문제에는 빠른 해결이 되면서도, 지속적인 문제의 경우 부하를 줄여줍니다.
 
 요청이 몰려서 서버의 요청이 실패하고, 그로인한 재시도를 진행한다면 같은 타이밍에 많은 요청이 몰리는 문제로 재시도가 장애에 영향을 줄 수도 있습니다. 이 경우 jitter를 사용해서 한순간에 몰리는 부하를 분산시킬 수 있습니다.
 
-기본적인 Jitter는 네트워크상의 지연이 바뀐다는 의미로 사용됩니다. 이전 글에서 소개한 [Phi Accrual Failure Detector](./phi-accrual-failure-detector.md)가 Jitter를 사용합니다. Expotential Backoff에서는 Jitter개념을 빌려와서 사용합니다.
+기본적인 Jitter는 네트워크상의 지연이 바뀐다는 의미로 사용됩니다. 이전 글에서 소개한 [Phi Accrual Failure Detector](./phi-accrual-failure-detector.md)가 Jitter를 사용합니다. Exponential Backoff에서는 Jitter개념을 빌려와서 사용합니다.
 
 재시도 요청을 하는 경우 Jitter는 확률적으로(eg. 0ms~100ms) 요청을 지연시킵니다. 적용하게 된다면 요청이 한번에 몰리지않고, 점진적으로 늘어나게됩니다.
 
 ## Backoff Tuning
-Expontential Backoff을 적용할 때 몇가지 고려해야할 사항이 있습니다.
+Exponential Backoff을 적용할 때 몇가지 고려해야할 사항이 있습니다.
 
 **Infinite Retry**
 
@@ -31,7 +31,7 @@ Expontential Backoff을 적용할 때 몇가지 고려해야할 사항이 있습
 
 **At Leaset Once**
 
-성공할때까지 계속 시도해야하는 요청에 Expontential Backoff를 적용하는 경우, 노드가 죽어도 문제없도록 고려해야합니다. 외부 시스템에 언제 재시도할지 기록하는 등의 방법으로 '적어도 한번' 처리가 되어야하는 요청에도 Expontential Backoff를 적용할 수 있습니다.
+성공할때까지 계속 시도해야하는 요청에 Exponential Backoff를 적용하는 경우, 노드가 죽어도 문제없도록 고려해야합니다. 외부 시스템에 언제 재시도할지 기록하는 등의 방법으로 '적어도 한번' 처리가 되어야하는 요청에도 Exponential Backoff를 적용할 수 있습니다.
 
 **API Idenpotent**
 
@@ -39,7 +39,7 @@ Expontential Backoff을 적용할 때 몇가지 고려해야할 사항이 있습
 
 **Long Term Wait**
 
-만약 외부 서버 장애와 같은 문제들에 대응하고 싶은 경우 재시도 간격이 Expontential하게 증가하더라도 짧게 느껴질 수 있습니다. 이 경우에는 증가 폭을 변경하는 방법이 있습니다. 또한 짧은 주기와 넓은 주기를 각각 구현해서 이용하는 방법도 있습니다.
+만약 외부 서버 장애와 같은 문제들에 대응하고 싶은 경우 재시도 간격이 Exponential하게 증가하더라도 짧게 느껴질 수 있습니다. 이 경우에는 증가 폭을 변경하는 방법이 있습니다. 또한 짧은 주기와 넓은 주기를 각각 구현해서 이용하는 방법도 있습니다.
 
 짧은 주기의 경우 재시도를 3번(1, 2, 4)까지만 진행합니다. 만약 이 과정에서도 실패한 경우 1시간, 2시간, 4시간, 16시간처럼 더 큰 범위로 점프할 수도 있습니다
 
