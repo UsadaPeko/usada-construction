@@ -47,4 +47,3 @@ Exponential Backoff을 적용할 때 몇가지 고려해야할 사항이 있습�
 ## See Also
   - https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/
   - https://jungseob86.tistory.com/12
-  - https://buzzvil.atlassian.net/l/c/7WxRQF23
