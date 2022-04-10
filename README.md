@@ -8,7 +8,7 @@ Distributed System
 
 DynamoDB
 - [Simple Introduce](./docs/dynamodb/README.md)
-- [Internal Architecture(Dynamo Paper)](./docs/dynamodb/INTERNAL.md)
+- [Dynamo Paper](./docs/dynamodb/INTERNAL.md)
 
 ## Company Structure
 Infrastructure
