@@ -13,7 +13,7 @@ Redis는 기본적으로 인메모리 데이터 스토어입니다. 우리는 Re
 ## Replication
 기본적으로 높은 가용성을 보장하는 가장 쉬운 방법은 시스템을 중복으로 배치하는 것입니다. 이런 이중화와 복제는 여러 복제본을 동기화하는 문제가 새롭게 등장합니다. Redis에서 어떻게 Replication(복제)를 수행하는지 살펴보겠습니다.
 
-Primary Redis에 이미 데이터가 있고, 새로운 복제본을 추가하는 경우에 P(rimary) Redis를 FORK한다음, 모든 데이터를 Secondery Redis로 전달합니다.
+Primary Redis에 이미 데이터가 있고, 새로운 복제본을 추가하는 경우에 Primary Redis를 FORK한다음, 모든 데이터를 Secondery(Replica) Redis로 전달합니다.
 
 > 이 과정에서 fork로 인한 메모리 사용량이 급증할 수 있습니다.
 > 꼭 fork하지 않고 다른 방법을 사용해서 데이터를 전송할 수도 있습니다만, 트레이드 오프가 있습니다.
