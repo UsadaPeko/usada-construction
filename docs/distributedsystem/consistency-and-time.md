@@ -34,7 +34,7 @@
 
 위와 같이 트랜잭션은 3가지 속성으로 나타내고 있으며, 논문의 뒷부분에서는 이 3가지 속성이 어떻게 실제 세계의 거래를 프로그래밍하는데 도와줄 수 있는지 살펴보고 있습니다. 우리는 여기에서 일관성에 집중해보겠습니다. 적법한 프로토콜이란 무엇일까요? 우리가 일반적으로 알고있는 일관성의 정의와는 사뭇 다릅니다.
 
-*여담으로 ACID는 [Principles of Transaction-Oriented Database Recovery](https://web.archive.org/web/20190923153438/https://sites.fas.harvard.edu/~cs265/papers/haerder-1983.pdf)에서 처음 소개되었습니다.*
+*여담으로 ACID는 [Principles of Transaction-Oriented Database Recovery](https://web.archive.org/web/20190923153438/https://sites.fas.harvard.edu/~cs265/papers/haerder-1983.pdf)에서 처음 소개되며, 트랜잭션의 4가지 속성으로 늘어나게 됩니다.*
 
 > Translating the transaction concept to the realm of computer science, we observe that most of the transactions we see around us (banking, car rental, or buying groceries) may be reflected in a computer as transformations of a system state.
 > 
