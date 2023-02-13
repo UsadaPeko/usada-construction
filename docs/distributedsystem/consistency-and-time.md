@@ -6,7 +6,7 @@
 
 ### Consistency in Transaction Context
 
-트랜잭션이라는 개념은 개발자에게 매우 익숙합니다. 특히 데이터베이스를 공부해보았다면 트랜잭션에 3가지 속성에 대하여 알고있을 것입니다. 우리는 트랜잭션 컨셉을 정리한 Jim Gery의 [The Transaction Concept: Virtues and Limitations](http://jimgray.azurewebsites.net/papers/thetransactionconcept.pdf)의 정의를 인용하면서 일관성을 정의해보겠습니다.
+트랜잭션이라는 개념은 개발자에게 매우 익숙합니다. 특히 데이터베이스를 공부해보았다면 트랜잭션에 3가지 속성에 대하여 알고있을 것입니다. 우리는 트랜잭션 컨셉을 정리한 Jim Gray의 [The Transaction Concept: Virtues and Limitations](http://jimgray.azurewebsites.net/papers/thetransactionconcept.pdf)의 정의를 인용하면서 일관성을 정의해보겠습니다.
 
 > ABSTRACT: A transaction is a transformation of state which has the properties of atomicity (all or nothing), durability (effects survive failures) and consistency (a correct transformation).
 >
