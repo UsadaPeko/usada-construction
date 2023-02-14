@@ -104,6 +104,13 @@ CAP 정리는 분산 시스템은 Consistency, Availablity, Partition-tolerance�
 > 이 챕터에서, 우리는 마지막 비동기 공유 메모리 모델인 원자적 객체를 소개한다.
 > 특정 유형의 원자적 객체는 같은 유형의 일반적인 공유 변수와 매우 유사합니다.
 
-우리는 atomic consistency의 정의를 찾으러왔는데, 갑자기 atomic object에 대한 설명이 나왔다. 물론 틀린 이야기는 아니다. 여기서는 atomic object가 atomic consistency를 만족하는 객체라고 이해하면 좋다.
+우리는 atomic consistency의 정의를 찾으러왔는데, 갑자기 atomic object에 대한 설명이 나왔다. 물론 틀린 이야기는 아니다. 여기서는 atomic object를 atomic data type(atomic consistency를 만족하는 객체)으로 이해할 수 있다. atomic data type은 atomic한 것과 더해서 Resilient한 것이 추가적으로 요구된다. 이런 설명은 [William Weihl, Barbara Liskov. Specification and Implementation of Resilient, Atomic Data Types](https://dl.acm.org/doi/pdf/10.1145/872728.806851)를 살펴보면 확인할 수 있다.
 
-여기에서 shared memory model과 같은 설명이 많이 나오는데, [David Mosberger. Memory Consistency Mode](https://dl.acm.org/doi/pdf/10.1145/160551.160553)를 살펴보면 조금 더 이해가 될 것이다.
+> 여담으로, atomic data type의 2저자인 리스코프는 리스코프 치환원칙으로 잘 알려져있다.
+>
+> William Weihl는 Nancy Lynch와 같은 MIT에 속해있으며, Distributed Algorithms 책에 인용된 [A Theory of Atomic Transactions](https://groups.csail.mit.edu/tds/papers/Lynch/lncs88.pdf)이라는 논문을 같이 작성했다. 그리고 atomic transaction에서는 Atomic Data Types가 인용되어 있다. William Weihl와 Nancy Lynch는 같이 한 다른 연구들도 있는데, 관심이 있다면 [Hybrid atomicity for nested transactions](https://linkinghub.elsevier.com/retrieve/pii/030439759500029V)도 같이 확인해봐도 좋을 것이다.
+> 
+> 여기에서 shared memory model과 같은 설명이 많이 나오는데, [David Mosberger. Memory Consistency Mode](https://dl.acm.org/doi/pdf/10.1145/160551.160553)를 살펴보면 조금 더 이해가 될 것이다. 이러한 consistency model은 멀티 프로세스 상에서 공유 메모리를 어떻게 접근할 것인지에 대한 내용에서 시작되었다.
+
+### External Consistency
+
