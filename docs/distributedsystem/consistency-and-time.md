@@ -77,7 +77,7 @@ CAP 정리는 분산 시스템은 Consistency, Availablity, Partition-tolerance�
 >
 > 2. 엄격한 모델
 > 
-> 이 섹션에서, 우리는 consistent, available, partition tolerant가 어떠한 의미를 지니는지 엄결하게 정의할 것이다.
+> 이 섹션에서, 우리는 consistent, available, partition tolerant가 어떠한 의미를 지니는지 엄격하게 정의할 것이다.
 >
 > 2.1 원자적 데이터 객체
 > 
@@ -104,7 +104,8 @@ CAP 정리는 분산 시스템은 Consistency, Availablity, Partition-tolerance�
 > 이 챕터에서, 우리는 마지막 비동기 공유 메모리 모델인 원자적 객체를 소개한다.
 > 특정 유형의 원자적 객체는 같은 유형의 일반적인 공유 변수와 매우 유사합니다.
 > 원자적 객체의 다른 점은, 여러 프로세스에서 접근이 가능하고 이 접근은 각각(indivisibly) 발생한다고 가정한다는 것이다.
-> 심지어 이러한 접근이 동시에 일어난다며느 원자적 객체는 프로세스에서 한번에 하나씩 접근하는 것처럼 보이도록 응답을 처리하는걸 보장한다.
+> 접근이 동시에 이루어지지만, 원자적 객체는 프로세스가 [호출, 응답 순서]와 일치하는 순서로(sequential order) 접근이 한 번에 하나씩 발생하는 것처럼 보이게 하는 응답을 얻을 수 있도록 보장한다.
+> 원자적 객체는 종종 선형화 객체로도 불린다.
 
 우리는 atomic consistency의 정의를 찾으러왔는데, 갑자기 atomic object에 대한 설명이 나왔다. 물론 틀린 이야기는 아니다. 여기서는 atomic object를 atomic data type(atomic consistency를 만족하는 객체)으로 이해할 수 있다. atomic data type은 atomic한 것과 더해서 Resilient한 것이 추가적으로 요구된다. 이런 설명은 [William Weihl, Barbara Liskov. Specification and Implementation of Resilient, Atomic Data Types](https://dl.acm.org/doi/pdf/10.1145/872728.806851)를 살펴보면 확인할 수 있다.
 
@@ -114,7 +115,40 @@ CAP 정리는 분산 시스템은 Consistency, Availablity, Partition-tolerance�
 > 
 > 여기에서 shared memory model과 같은 설명이 많이 나오는데, [David Mosberger. Memory Consistency Mode](https://dl.acm.org/doi/pdf/10.1145/160551.160553)를 살펴보면 조금 더 이해가 될 것이다. 이러한 consistency model은 멀티 프로세스 상에서 공유 메모리를 어떻게 접근할 것인지에 대한 내용에서 시작되었다.
 
-#### Atomic Transaction
+#### Atomic Data Type
+
+우리는 이전에 CAP 정리에서 사용된 atomic object라는 것을 살펴보았다. 그러나 여전히 이 것이 어떻게 consistency를 의미하는지는 조금 명확하지 않다. 따라서 consistency와 atomic object의 관계를 조금 더 찾아보겠다.
+
+William Weihl의 [Specification and Implementation of Resilient, Atomic Data Types](https://dl.acm.org/doi/pdf/10.1145/872728.806851)에서 추가적인 정보를 확인할 수 있다. 
+
+> ABSTRACT
+> 
+> A major issue in many applications is how to preserve the
+consistency of data in the presence of concurrency and hardware
+failures. We suggest addressing this problem by implementing
+applications in terms of abstract data types with two properties:
+Their objects are atomic (they provide serializability and
+recoverability for activities using them) and resilient (they survive
+hardware failures with acceptably high probability). We define
+what it means for abstract data types to be atomic and resilient.
+We also discuss issues that arise in implementing such types, and
+describe a particular linguistic mechanism provided in the Argus
+programming language. 
+>
+> 초록
+>
+> 많은 애플리케이션에서 겪고있는 주요한 문제는 동시성과 하드웨어 장애로부터 어떻게 데이터 일관성을 보존하는지이다.
+> 우리는 다음 두 가지 속성을 가진 추상적인 데이터 유형(ADT)의 관점에서 애플리케이션을 구현하여 이 문제를 해결할 것을 제안한다.
+> 첫번째 속성: 그 객체들은 원자적이다. (그들은 직렬화가능성과(serializability) 활동에 대한 복구 가능성을(recoverability for activities) 제공한다.)
+> 두번째 속성: 탄력적(resilient)이다. (그들은 높은 하드웨어 장애 가능성에서도 살아남는다.)
+>
+
+
+### Consistency Models
+
+### External Consistency
+
+### Atomic Transaction
 
 > The idea of nested transactions seems to have originated in the "spheres of control" work of [Davies].
 > Reed [Reed] developed the current notion of nesting and designed a timestamp-based implementation.
@@ -122,8 +156,3 @@ CAP 정리는 분산 시스템은 Consistency, Availablity, Partition-tolerance�
 > the Argus programming language. 
 >
 > moss: https://apps.dtic.mil/sti/pdfs/ADA100754.pdf
-
-### Consistency Models
-
-### External Consistency
-
