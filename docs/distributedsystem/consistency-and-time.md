@@ -85,7 +85,7 @@ CAP 정리는 분산 시스템은 Consistency, Availablity, Partition-tolerance�
 
 (TODO, 좀 더 깔끔하게 번역하기)
 
-정리해보자면, CAP 추측을 증명하는 과정에서 Consistent한 서비스를 정의하는 방법으로 원자적 데이터 객체라는 개념을 사용한다. 이는 한번에 하나의 요청만 처리되는 것과 동일하게 나타나야함을 의미한다. 또한 쓰기 작업이 끝난다음 실행된 읽기는 이전 쓰기가 반영된 값을 반환해야한다. 이러한 정의를 Atomic Consistency, 혹은 선형화 가능성(linearizable)이라고 한다. 그리고 자세한 정의는 스킵하고 있다. 우리는 엄밀한 정의가 보고싶기에 조금 더 찾아본다. [인용 6번]은 [Nancy Lynch. Distributed Algorithms, pages 397–350. Morgan Kaufman, 1996.](https://dl.acm.org/doi/book/10.5555/2821576)으로, CAP 추측을 증명한 Nancy Lynch의 분산 시스템 교과서이다. 이 책의 Chapter 13에서 Atomic Objects에 대한 설명을 하고있다. 우리는 분산 시스템을 공부하러 온 학생이기에 열심히 교과서를 읽어보자.
+정리해보자면, CAP 추측을 증명하는 과정에서 Consistent한 서비스를 정의하는 방법으로 원자적 데이터 객체라는 개념을 사용한다. 이는 한번에 하나의 요청만 처리되는 것과 동일하게 나타나야함을 의미한다. 또한 쓰기 작업이 끝난다음 실행된 읽기는 이전 쓰기가 반영된 값을 반환해야한다. 이러한 정의를 Atomic Consistency, 혹은 선형화 가능성(linearizable)이라고 한다. 그리고 자세한 정의는 스킵하고 있다. 우리는 엄밀한 정의가 보고싶기에 조금 더 찾아본다. [인용 6번]은 [Nancy Lynch. Distributed Algorithms, pages 397–350. Morgan Kaufman, 1996.](https://dl.acm.org/doi/book/10.5555/2821576)으로, CAP 추측을 증명한 Nancy Lynch의 분산 시스템 교과서이다. 이 책의 Chapter 13에서 Atomic Objects에 대한 설명을 하고있다. 이 책은 구글 스칼라에 따르면 Nancy Lynch의 글중에서 가장 인용이 많이 되었으며(6k), 우리는 분산 시스템을 공부하러 온 학생이기에 열심히 교과서를 읽어보자.
 
 > Chapter 13 - Atomic Objects
 > 
@@ -103,14 +103,27 @@ CAP 정리는 분산 시스템은 Consistency, Availablity, Partition-tolerance�
 >
 > 이 챕터에서, 우리는 마지막 비동기 공유 메모리 모델인 원자적 객체를 소개한다.
 > 특정 유형의 원자적 객체는 같은 유형의 일반적인 공유 변수와 매우 유사합니다.
+> 원자적 객체의 다른 점은, 여러 프로세스에서 접근이 가능하고 이 접근은 각각(indivisibly) 발생한다고 가정한다는 것이다.
+> 심지어 이러한 접근이 동시에 일어난다며느 원자적 객체는 프로세스에서 한번에 하나씩 접근하는 것처럼 보이도록 응답을 처리하는걸 보장한다.
 
 우리는 atomic consistency의 정의를 찾으러왔는데, 갑자기 atomic object에 대한 설명이 나왔다. 물론 틀린 이야기는 아니다. 여기서는 atomic object를 atomic data type(atomic consistency를 만족하는 객체)으로 이해할 수 있다. atomic data type은 atomic한 것과 더해서 Resilient한 것이 추가적으로 요구된다. 이런 설명은 [William Weihl, Barbara Liskov. Specification and Implementation of Resilient, Atomic Data Types](https://dl.acm.org/doi/pdf/10.1145/872728.806851)를 살펴보면 확인할 수 있다.
 
 > 여담으로, atomic data type의 2저자인 리스코프는 리스코프 치환원칙으로 잘 알려져있다.
 >
-> William Weihl는 Nancy Lynch와 같은 MIT에 속해있으며, Distributed Algorithms 책에 인용된 [A Theory of Atomic Transactions](https://groups.csail.mit.edu/tds/papers/Lynch/lncs88.pdf)이라는 논문을 같이 작성했다. 그리고 atomic transaction에서는 Atomic Data Types가 인용되어 있다. William Weihl와 Nancy Lynch는 같이 한 다른 연구들도 있는데, 관심이 있다면 [Hybrid atomicity for nested transactions](https://linkinghub.elsevier.com/retrieve/pii/030439759500029V)도 같이 확인해봐도 좋을 것이다.
+> William Weihl는 Nancy Lynch와 같은 MIT에 속해있었으며, Distributed Algorithms 책에 인용된 [A Theory of Atomic Transactions](https://groups.csail.mit.edu/tds/papers/Lynch/lncs88.pdf)이라는 논문을 같이 작성했다. 그리고 atomic transaction에서는 Atomic Data Types가 인용되어 있다. William Weihl와 Nancy Lynch는 같이 한 다른 연구들도 있는데, 관심이 있다면 [Hybrid atomicity for nested transactions](https://linkinghub.elsevier.com/retrieve/pii/030439759500029V)도 같이 확인해봐도 좋을 것이다.
 > 
 > 여기에서 shared memory model과 같은 설명이 많이 나오는데, [David Mosberger. Memory Consistency Mode](https://dl.acm.org/doi/pdf/10.1145/160551.160553)를 살펴보면 조금 더 이해가 될 것이다. 이러한 consistency model은 멀티 프로세스 상에서 공유 메모리를 어떻게 접근할 것인지에 대한 내용에서 시작되었다.
+
+#### Atomic Transaction
+
+> The idea of nested transactions seems to have originated in the "spheres of control" work of [Davies].
+> Reed [Reed] developed the current notion of nesting and designed a timestamp-based implementation.
+> Moss [Moss] later designed a locking implementation that serves as the basis of the implementation of
+> the Argus programming language. 
+>
+> moss: https://apps.dtic.mil/sti/pdfs/ADA100754.pdf
+
+### Consistency Models
 
 ### External Consistency
 
