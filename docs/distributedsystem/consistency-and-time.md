@@ -125,7 +125,31 @@ CAP 정리는 분산 시스템은 Consistency, Availablity, Partition-tolerance�
 
 </details>
 
-#### Atomic Data Type
+#### 선형화가능성의 언어 유래
+
+> 13.5 Bibliographic Notes 
+The idea of an "atomic object" appears to have originated with the work of Lamport [181, 182] on read/write atomic objects. Herlihy and Wing [153] extended
+the notion of atomicity to arbitrary variable types and renamed it linearizability.
+Khnig's Lemma was originally proved by Khnig [170]; a proof appears in Knuth's
+book [169]. The canonical wait-free atomic object automaton is derived from the
+work of Merritt, described in [3]. The connection between atomic objects and
+shared variables is derived from work by Lamport and Schneider [186] and by
+Goldman and Yelick [139]. The impossibility of implementing read-modify-write
+atomic objects using read/write objects is due to Herlihy [150].
+The idea of a snapshot atomic object is due to Afek, Attiya, Dolev, Gafni,
+Merritt, and Shavit [3] and to Anderson [11, 12], inspired by the work of
+Chandy and Lamport on consistent global snapshots in distributed networks [68].
+The snapshot atomic object implementations presented here, both UnboundedSnapshot and BoundedSnapshot, are due to Afek, et al. The handshake strategy
+used in the BoundedSnapshot protocol is due to Peterson [240]. A more recent atomic snapshot algorithm, requiring only O (nt~logn) time rather than
+quadratic time, has been developed by Attiya and Rachman [26].
+> 
+> 참고 문헌
+원자적 객체에 대한 아이디어는 Lamport의 읽기/쓰기 원자적 객체에 대한 연구에서 비롯된 것으로 보인다.
+Herlihy와 Wing은 임의 변수 타입에 대한 원자적이란 개념을 확장하고, 선형화가능성으로 이름을 붙였다.
+
+
+
+#### Atomic Data Type - 과거 atomic에 대한 추가 연구들
 
 우리는 이전에 CAP 정리에서 사용된 atomic object라는 것을 살펴보았다. 그러나 여전히 이 것이 어떻게 consistency를 의미하는지는 조금 명확하지 않다. 따라서 consistency와 atomic object의 관계를 조금 더 찾아보겠다.
 
