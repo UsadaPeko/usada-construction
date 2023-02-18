@@ -146,6 +146,26 @@ quadratic time, has been developed by Attiya and Rachman [26].
 > 참고 문헌
 원자적 객체에 대한 아이디어는 Lamport의 읽기/쓰기 원자적 객체에 대한 연구에서 비롯된 것으로 보인다.
 Herlihy와 Wing은 임의 변수 타입에 대한 원자적이란 개념을 확장하고, 선형화가능성으로 이름을 붙였다.
+(그 뒤는 생략)
+
+우리는 Nancy의 atomic object의 참고 문헌들에서 atomicity와 linearizability에 대한 추가적인 정보를 얻을 수 있었다. 당연히 우리는 그 논문도 살펴본다.
+
+> # Linearizability: A Correctness Condition for Concurrent Objects 
+> 
+> A concurrent object is a data object shared by concurrent processes. Linearizability is a correctness
+condition for concurrent objects that exploits the semantics of abstract data types. It permits a high
+degree of concurrency, yet it permits programmers to specify and reason about concurrent objects
+using known techniques from the sequential domain. Linearizability provides the illusion that each
+operation applied by concurrent processes takes effect instantaneously at some point between its
+invocation and its response, implying that the meaning of a concurrent object’s operations can be
+given by pre- and post-conditions. This paper defines linearizability, compares it to other correctness
+conditions, presents and demonstrates a method for proving the correctness of implementations, and
+shows how to reason about concurrent objects, given they are linearizable. 
+>
+> # 선형화가능성: 동시성 객체의 정확성 조건(Correctness Condition)
+>
+> 동시성 객체는 동시 프로세스(concurrent processes)에 의애 공유되는 데이터 객체다.
+선형화가능성은 추상 데이터 유형(ADT)의 문법을(semantics) 이용하는 동시성 객체에 대한 정확성 조건입니다.
 
 
 
