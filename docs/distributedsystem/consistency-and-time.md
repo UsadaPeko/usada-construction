@@ -150,7 +150,7 @@ Herlihy와 Wing은 임의 변수 타입에 대한 원자적이란 개념을 확�
 
 우리는 Nancy의 atomic object의 참고 문헌들에서 atomicity와 linearizability에 대한 추가적인 정보를 얻을 수 있었다. [170]으로 표시된 것은 [Linearizability: A Correctness Condition for Concurrent Objects](https://cs.brown.edu/~mph/HerlihyW90/p463-herlihy.pdf)으로, 당연히 우리는 그 논문도 살펴본다.
 
-> # Linearizability: A Correctness Condition for Concurrent Objects
+> ### Linearizability: A Correctness Condition for Concurrent Objects
 > 
 > A concurrent object is a data object shared by concurrent processes. Linearizability is a correctness
 condition for concurrent objects that exploits the semantics of abstract data types. It permits a high
@@ -162,7 +162,7 @@ given by pre- and post-conditions. This paper defines linearizability, compares 
 conditions, presents and demonstrates a method for proving the correctness of implementations, and
 shows how to reason about concurrent objects, given they are linearizable. 
 >
-> # 선형화가능성: 동시성 객체의 정확성 조건(Correctness Condition)
+> ### 선형화가능성: 동시성 객체의 정확성 조건(Correctness Condition)
 >
 > 동시성 객체는 동시 프로세스(concurrent processes)에 의애 공유되는 데이터 객체다.
 선형화가능성은 추상 데이터 유형(ADT)의 문법을(semantics) 이용하는 동시성 객체에 대한 정확성 조건입니다.
@@ -250,7 +250,7 @@ indivisibility을 달성하는 한가지 방법은 액션을 순서대로(serial
 
 ### Spanner
 
->These features are enabled by the fact that Spanner assigns globally meaningful
+> These features are enabled by the fact that Spanner assigns globally meaningful
 commit timestamps to transactions, even though transactions may be distributed. The
 timestamps reflect serialization order. In addition, the serialization order satisfies external consistency (or equivalently, linearizability [Herlihy and Wing 1990]): if a transaction T1 commits before another transaction T2 starts, then T1’s commit timestamp
 is smaller than T2’s. Spanner is the first system to provide such guarantees at global
