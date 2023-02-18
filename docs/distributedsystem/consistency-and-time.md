@@ -154,10 +154,38 @@ programming language.
 > 우리는 abstract data types이 atomic and resilient하다는 것이 무엇인지 정의한다.
 > 또한 우리는 이러한 타입을 구현하면서 생기는 문제에 대하여 논의하고, Argus 프로그래밍 언어에 대한 특정 언어학적 메커니즘을 설명한다.
 
+
 <details>
 <summary>Argus란</summary>
 Argus는 바바라 리스코프가 만든 분산 객체지향 언어이다.
 </details>
+
+(생략)
+
+> To support consistency it is useful to make the activities that
+use and manipulate the data atomic. Atomic activities are referred
+to as actions or transactions; they were first identified in work on
+databases [5, 6, 8]. An atomic action is distinguished by two
+properties, indivisibility and recoverability.
+> Indivisibility means that
+the execution of one action never appears to overlap (or contain)
+the execution of any other action. One way of achieving
+indivisibility is to run actions serially. However, greater
+concurrency is desirable, provided the concurrent actions do not
+interfere with one another. Non-interference can be guaranteed if
+the effect of running the actions concurrently is the same as if they
+had been executed serially in some order. If this condition is true,
+the actions are said to be seria/izab/e [8, 23]. 
+>
+> 일관성을 지원하기 위하여, 데이터를 조작하고, 이용하는 활동을(activities) 원자적으로 만드는 것이 도움이 된다.
+원자적 활동은(activities) 액션이나, 데이터베이스와 관련된 연구에서 최초로 확인된(first identified) 트랜잭션을 지칭한다.
+원자적 액션은 indivisibility와 recoverability, 두가지 속성으로 나타난다.
+> indivisibility는 하나의 액션의 실행이 또다른 하나의 액션의 실행과 절대 겹쳐서 (혹은 같이) 나타나지 않는다.
+indivisibility을 달성하는 한가지 방법은 액션을 순서대로(serially) 실행하는 것이다.
+그러나, 동시에 하는 요청이 서로 간섭하지 않는한, 더 많은 요청이 동시에 실행되는 것이 요구된다.
+작업을 동시에 실행하는 효과가 순차적으로(serially in some order) 실행된 것과 동일한 경우에는 간섭이 없음을 보장할 수 있습니다.
+만약 이러한 조건을 만족한다면 액션은 직렬화 가능하다고(serializable) 할 수 있다.
+
 
 ### Consistency Models
 
@@ -171,6 +199,10 @@ Argus는 바바라 리스코프가 만든 분산 객체지향 언어이다.
 > the Argus programming language. 
 >
 > moss: https://apps.dtic.mil/sti/pdfs/ADA100754.pdf
+
+### Nested Transactions
+
+
 
 ### Spanner
 
