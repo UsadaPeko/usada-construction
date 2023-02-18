@@ -82,6 +82,10 @@ CAP 정리는 분산 시스템은 Consistency, Availablity, Partition-tolerance�
 > 2.1 원자적 데이터 객체
 > 
 > 가장 자연스러운 방법으로 일관된 서비스를 엄격하게 정의하는 아이디어는 원자적 데이터 객체이다. 원자적, 혹은 선형화 가능한 일관성은 많은 웹서비스가 예상하는 조건이다. 이 일관성 보장 하에서, 각 작업이 한 instant에서 완료된 것처럼 항상 모든 operations에 대한 Total Order가 존재해야한다. 이는 분산 공유 메모리의 요청이 단일 노드에서 실행되는 것처럼 작동하여 한 번에 하나씩 작업에 응답하도록 요구하는 것과 같다. 원자적 읽기/쓰기 공유 메모리의 중요한 특성 중 하나는 쓰기 작업이 완료된 후 시작되는 읽기 작업은 해당 값을 반환해야 한다는 것이다. 이는 일반적으로 사용자가 가장 쉽게 이해할 수 있는 모델을 제공하는 일관성 보장이며, 분산 서비스를 사용하는 클라이언트 애플리케이션을 설계하려는 사용자에게 가장 편리합니다. 원자적 일관성에 대한 자세한 정의는 [인용-6번]을 참조하십시오.
+>
+> 인용-6번.
+> 데이터베이스에서 일관성은 트랜잭션에 대한것을 의미하는 반면, 원자적 일관성은 요청/응답 작업 시퀀스의 속성만을 의미하기 때문에 ACID 데이터베이스에 대해 논의하는 것과는 다소 다르다.
+> 그리고 ACID의 원자성의 의미와도 다르게, 원자적 일관성은 데이터베이스의 원자성과 일관성에 대한 개념을 모두 포함한다.
 
 (TODO, 좀 더 깔끔하게 번역하기)
 
@@ -109,11 +113,17 @@ CAP 정리는 분산 시스템은 Consistency, Availablity, Partition-tolerance�
 
 우리는 atomic consistency의 정의를 찾으러왔는데, 갑자기 atomic object에 대한 설명이 나왔다. 물론 틀린 이야기는 아니다. 여기서는 atomic object를 atomic data type(atomic consistency를 만족하는 객체)으로 이해할 수 있다. atomic data type은 atomic한 것과 더해서 Resilient한 것이 추가적으로 요구된다. 이런 설명은 [William Weihl, Barbara Liskov. Specification and Implementation of Resilient, Atomic Data Types](https://dl.acm.org/doi/pdf/10.1145/872728.806851)를 살펴보면 확인할 수 있다.
 
+
+<details>
+<summary>여담</summary>
+
 > 여담으로, atomic data type의 2저자인 리스코프는 리스코프 치환원칙으로 잘 알려져있다.
 >
 > William Weihl는 Nancy Lynch와 같은 MIT에 속해있었으며, Distributed Algorithms 책에 인용된 [A Theory of Atomic Transactions](https://groups.csail.mit.edu/tds/papers/Lynch/lncs88.pdf)이라는 논문을 같이 작성했다. 그리고 atomic transaction에서는 Atomic Data Types가 인용되어 있다. William Weihl와 Nancy Lynch는 같이 한 다른 연구들도 있는데, 관심이 있다면 [Hybrid atomicity for nested transactions](https://linkinghub.elsevier.com/retrieve/pii/030439759500029V)도 같이 확인해봐도 좋을 것이다.
 > 
 > 여기에서 shared memory model과 같은 설명이 많이 나오는데, [David Mosberger. Memory Consistency Mode](https://dl.acm.org/doi/pdf/10.1145/160551.160553)를 살펴보면 조금 더 이해가 될 것이다. 이러한 consistency model은 멀티 프로세스 상에서 공유 메모리를 어떻게 접근할 것인지에 대한 내용에서 시작되었다.
+
+</details>
 
 #### Atomic Data Type
 
@@ -141,8 +151,13 @@ programming language.
 > 우리는 다음 두 가지 속성을 가진 추상적인 데이터 유형(ADT)의 관점에서 애플리케이션을 구현하여 이 문제를 해결할 것을 제안한다.
 > 첫번째 속성: 그 객체들은 원자적이다. (그들은 직렬화가능성과(serializability) 활동에 대한 복구 가능성을(recoverability for activities) 제공한다.)
 > 두번째 속성: 탄력적(resilient)이다. (그들은 높은 하드웨어 장애 가능성에서도 살아남는다.)
->
+> 우리는 abstract data types이 atomic and resilient하다는 것이 무엇인지 정의한다.
+> 또한 우리는 이러한 타입을 구현하면서 생기는 문제에 대하여 논의하고, Argus 프로그래밍 언어에 대한 특정 언어학적 메커니즘을 설명한다.
 
+<details>
+<summary>Argus란</summary>
+Argus는 바바라 리스코프가 만든 분산 객체지향 언어이다.
+</details>
 
 ### Consistency Models
 
@@ -156,3 +171,11 @@ programming language.
 > the Argus programming language. 
 >
 > moss: https://apps.dtic.mil/sti/pdfs/ADA100754.pdf
+
+### Spanner
+
+>These features are enabled by the fact that Spanner assigns globally meaningful
+commit timestamps to transactions, even though transactions may be distributed. The
+timestamps reflect serialization order. In addition, the serialization order satisfies external consistency (or equivalently, linearizability [Herlihy and Wing 1990]): if a transaction T1 commits before another transaction T2 starts, then T1’s commit timestamp
+is smaller than T2’s. Spanner is the first system to provide such guarantees at global
+scale
