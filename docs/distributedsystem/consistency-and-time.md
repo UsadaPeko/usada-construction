@@ -129,7 +129,8 @@ CAP 추측을 증명하는 과정에서 Consistent한 서비스를 정의하는 
 #### 선형화가능성의 언어 유래
 
 > 13.5 Bibliographic Notes 
-The idea of an "atomic object" appears to have originated with the work of Lamport [181, 182] on read/write atomic objects. Herlihy and Wing [153] extended
+>
+> The idea of an "atomic object" appears to have originated with the work of Lamport [181, 182] on read/write atomic objects. Herlihy and Wing [153] extended
 the notion of atomicity to arbitrary variable types and renamed it linearizability.
 Khnig's Lemma was originally proved by Khnig [170]; a proof appears in Knuth's
 book [169]. The canonical wait-free atomic object automaton is derived from the
@@ -145,7 +146,8 @@ used in the BoundedSnapshot protocol is due to Peterson [240]. A more recent ato
 quadratic time, has been developed by Attiya and Rachman [26].
 > 
 > 참고 문헌
-원자적 객체에 대한 아이디어는 Lamport의 읽기/쓰기 원자적 객체에 대한 연구에서 비롯된 것으로 보인다.
+>
+> 원자적 객체에 대한 아이디어는 Lamport의 읽기/쓰기 원자적 객체에 대한 연구에서 비롯된 것으로 보인다.
 Herlihy와 Wing은 임의 변수 타입에 대한 원자적이란 개념을 확장하고, 선형화가능성으로 이름을 붙였다.
 (그 뒤는 생략)
 
@@ -243,9 +245,26 @@ indivisibility을 달성하는 한가지 방법은 액션을 순서대로(serial
 만약 이러한 조건을 만족한다면 액션은 직렬화 가능하다고(serializable) 할 수 있다.
 
 
-### Consistency Models
+### 동시성 환경의 consistency가 왜 중요한가
 
-### External Consistency
+우리는 consistency를 찾아보면서 동시성이 높은 환경에서의 consistency에 대한 연구로 도달했습니다. 그 과정에서 trasnaction이라는 단어가 많이 사용되며, Jim Gray의 [The Notions of Consistency and Predicate Locks in a Database System](https://dl.acm.org/doi/pdf/10.1145/360363.360369)가 많이 인용되는 것을 살펴볼 수 있었습니다. 우리는 이부분을 추가적으로 살펴봅니다.
+
+
+<details>
+<summary>The Notions of Consistency and Predicate Locks in a Database System</summary>
+</details>
+
+위 논문에서는 데이터베이스 시스템에서 consistency를 보장하기 위해서는 atomic한 operation들이 순차적으로 실행되어야한다고 나와있다. 그러나 우리는 더 많은 요청을 동시에 수행하는 것이 권장된다. 당연히 성능때문이며, 데이터베이스가 한번에 하나만 실행된다면 이는 바람직하지 못할 것이다. 우리는 이러한 consistency를 보장하기 위하여 여러가지 방법을 사용하고 있다.
+
+보통 많이 사용되는 방식은 timestamp based방식과 lock을 하는 방식이다. lock을 사용하는 방식이 이전에는 조금 더 대중적으로 받아들여져왔다.
+
+### 분산 시스템에서의 트랜잭션
+
+동시성 환경의 더 나아간 버전이 분산 시스템이다. 분산 시스템에서는 모든 것이 네트워크로 연결되어 있다고 가정한다. 이러한 환경에서 트랜잭션을 바로 지원하는 것이 아닌, Nested된 Transaction을 구현하며, 이 트랜잭션은 ACID를 만족하도록 노력한다.
+
+Nested Transaction이란, XXX
+
+분산 시스템에서의 Nested Transaction은 [NESTED TRANSACTION: AN APPROACH TO RELIABLE DISTRIBUTED COMPUTING](https://apps.dtic.mil/sti/pdfs/ADA100754.pdf)에서 자세히 알아볼 수 있었다.
 
 ### Atomic Transaction
 
@@ -256,9 +275,12 @@ indivisibility을 달성하는 한가지 방법은 액션을 순서대로(serial
 >
 > moss: https://apps.dtic.mil/sti/pdfs/ADA100754.pdf
 
-### Nested Transactions
 
+Nancy의 Atomic Transaction이라는 논문에서는 Nested Transaction을 이용하여 어떻게 atomicity를 보장할 수 있는지를 살펴본다.
 
+## TIME FOR TIME
+
+분산 시스템에서의 중요한 개념은 시간이다. 또한 일관성과 시간을 매우 밀접하게 연관되어있다.
 
 ### Spanner
 
