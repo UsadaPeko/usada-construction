@@ -8,6 +8,7 @@ Distributed System
 - [더 똑똑한 장애감지기](./docs/distributedsystem/phi-accrual-failure-detector.md)
 - [Eventually Consistency](./docs/distributedsystem/eventually-consistency.md)
 - [일관성과 시간 - WIP](./docs/distributedsystem/consistency-and-time.md)
+- [분산 합의는 전체 순서 Broadcast와 같다](./docs/distributedsystem/consensus-is-same-tob.md)
 - Consistency Hashing
 
 DynamoDB
