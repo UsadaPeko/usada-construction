@@ -6,6 +6,8 @@ Distributed System
 - [Lamport Clock](./docs/distributedsystem/lamport-clock.md)
 - [Exponential Backoff Retry](./docs/distributedsystem/exponential-backoff-retry.md)
 - [더 똑똑한 장애감지기](./docs/distributedsystem/phi-accrual-failure-detector.md)
+- [Eventually Consistency](./docs/distributedsystem/eventually-consistency.md)
+- [일관성과 시간 - WIP](./docs/distributedsystem/consistency-and-time.md)
 - Consistency Hashing
 
 DynamoDB
